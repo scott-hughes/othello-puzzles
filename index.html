@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<title>Othello Playout Throughput Test</title>
+<div><input id="run" type="button" value="Run Test"></div>
+<pre id="output"></pre>
+<script type="module">
+var generator = new Worker("generator.js", {type: "module"});
+var button = document.getElementById("run");
+var output = document.getElementById("output");
+button.addEventListener("click", function() {
+  button.disabled = true;
+  generator.postMessage(null);
+});
+generator.addEventListener("message", function(event) {
+  output.append(event.data, document.createElement("br"));
+  button.disabled = false;
+});
+</script>
